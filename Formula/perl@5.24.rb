@@ -5,6 +5,8 @@ class PerlAT524 < Formula
   sha256 "7f080287ff64750270689843ae945f02159a33cb8f2fc910248c15befba5db84"
   license any_of: ["Artistic-1.0-Perl", "GPL-1.0-or-later"]
 
+  keg_only :versioned_formula
+
   depends_on "berkeley-db"
   depends_on "gdbm"
 
@@ -13,23 +15,7 @@ class PerlAT524 < Formula
 
   # Prevent site_perl directories from being removed
   skip_clean "lib/perl5/site_perl"
-
   patch :DATA
-
-  conflicts_with "perl", because: "another version of same formula"
-  conflicts_with "perl@5.14", because: "another version of same formula"
-  conflicts_with "perl@5.16", because: "another version of same formula"
-  conflicts_with "perl@5.18", because: "another version of same formula"
-  conflicts_with "perl@5.20", because: "another version of same formula"
-  conflicts_with "perl@5.22", because: "another version of same formula"
-  conflicts_with "perl@5.24", because: "another version of same formula"
-  conflicts_with "perl@5.26", because: "another version of same formula"
-  conflicts_with "perl@5.28", because: "another version of same formula"
-  conflicts_with "perl@5.30", because: "another version of same formula"
-  conflicts_with "perl@5.32", because: "another version of same formula"
-  conflicts_with "perl@5.34", because: "another version of same formula"
-  conflicts_with "perl@5.36", because: "another version of same formula"
-
   def install
     args = %W[
       -des
@@ -84,7 +70,6 @@ class PerlAT524 < Formula
     system "#{bin}/perl", "test.pl"
   end
 end
-
 __END__
 diff --git a/hints/darwin.sh b/hints/darwin.sh
 index 0a91bc083c01c5649e930c2d4be61c8a5febfef9..fdfbdd4a3b9438a79d414c14aeaeb2820e213897 100644

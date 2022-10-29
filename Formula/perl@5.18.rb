@@ -5,6 +5,8 @@ class PerlAT518 < Formula
   sha256 "1fb4d27b75cd244e849f253320260efe1750641aaff4a18ce0d67556ff1b96a5"
   license any_of: ["Artistic-1.0-Perl", "GPL-1.0-or-later"]
 
+  keg_only :versioned_formula
+
   depends_on "berkeley-db"
   depends_on "gdbm"
 
@@ -13,22 +15,6 @@ class PerlAT518 < Formula
 
   # Prevent site_perl directories from being removed
   skip_clean "lib/perl5/site_perl"
-
-  
-
-  conflicts_with "perl", because: "another version of same formula"
-  conflicts_with "perl@5.14", because: "another version of same formula"
-  conflicts_with "perl@5.16", because: "another version of same formula"
-  conflicts_with "perl@5.18", because: "another version of same formula"
-  conflicts_with "perl@5.20", because: "another version of same formula"
-  conflicts_with "perl@5.22", because: "another version of same formula"
-  conflicts_with "perl@5.24", because: "another version of same formula"
-  conflicts_with "perl@5.26", because: "another version of same formula"
-  conflicts_with "perl@5.28", because: "another version of same formula"
-  conflicts_with "perl@5.30", because: "another version of same formula"
-  conflicts_with "perl@5.32", because: "another version of same formula"
-  conflicts_with "perl@5.34", because: "another version of same formula"
-  conflicts_with "perl@5.36", because: "another version of same formula"
 
   def install
     args = %W[
