@@ -1,5 +1,5 @@
 class PerlAT514 < Formula
-  desc "Highly capable, feature-rich programming language"
+  desc "Highly capable and feature-rich programming language"
   homepage "https://www.perl.org/"
   url "https://www.cpan.org/src/5.0/perl-5.14.4.tar.bz2"
   sha256 "eece8c2b0d491bf6f746bd1f4f1bb7ce26f6b98e91c54690c617d7af38964745"
