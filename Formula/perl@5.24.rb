@@ -103,18 +103,3 @@ index 0a91bc083c01c5649e930c2d4be61c8a5febfef9..fdfbdd4a3b9438a79d414c14aeaeb282
        add_macosx_version_min ccflags $prodvers
        add_macosx_version_min ldflags $prodvers
        ;;
-@@ -342,11 +342,10 @@ EOM
-       exit 1
-     esac
- 
--    # The X in 10.X
--    prodvers_minor=$(echo $prodvers|awk -F. '{print $2}')
-+    darwin_major=$(echo $osvers|awk -F. '{print $1}')
- 
--    # macOS (10.12) deprecated syscall().
--    if [ "$prodvers_minor" -ge 12 ]; then
-+    # macOS 10.12 (darwin 16.0.0) deprecated syscall().
-+    if [ "$darwin_major" -ge 16 ]; then
-         d_syscall='undef'
-         # If deploying to pre-10.12, suppress Time::HiRes's detection of the system clock_gettime()
-         case "$MACOSX_DEPLOYMENT_TARGET" in
