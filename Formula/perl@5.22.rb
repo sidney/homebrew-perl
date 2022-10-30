@@ -7,6 +7,7 @@ class PerlAT522 < Formula
 
   keg_only :versioned_formula
 
+  depends_on :macos
   depends_on "berkeley-db"
   depends_on "gdbm"
 
