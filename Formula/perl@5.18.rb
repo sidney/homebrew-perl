@@ -21,7 +21,7 @@ class PerlAT518 < Formula
   on_big_sur do
     patch :DATA
   end
-  
+
   def install
     args = %W[
       -des
