@@ -17,6 +17,11 @@ class PerlAT518 < Formula
   # Prevent site_perl directories from being removed
   skip_clean "lib/perl5/site_perl"
 
+  # for some unknown reason 5.18.4 fails build on Big Sur without this patch
+  on_big_sur do
+    patch :DATA
+  end
+  
   def install
     args = %W[
       -des
@@ -71,3 +76,14 @@ class PerlAT518 < Formula
     system "#{bin}/perl", "test.pl"
   end
 end
+__END__
+--- a/dist/Module-CoreList/lib/Module/CoreList.pm	2022-10-31 16:28:01.000000000 +1300
++++ b/dist/Module-CoreList/lib/Module/CoreList.pm	2022-11-01 11:02:37.000000000 +1300
+@@ -8092,7 +8092,6 @@
+     5.018004 => {
+         delta_from => 5.018003,
+         changed => {
+-            'Module::CoreList'      => '3.13',
+             'Module::CoreList::TieHashDelta'=> '3.13',
+             'Module::CoreList::Utils'=> '3.13',
+         },
