@@ -1,5 +1,5 @@
 class PerlAT518 < Formula
-  desc "Highly capable, feature-rich programming language"
+  desc "Highly capable and feature-rich programming language"
   homepage "https://www.perl.org/"
   url "https://www.cpan.org/src/5.0/perl-5.18.4.tar.bz2"
   sha256 "1fb4d27b75cd244e849f253320260efe1750641aaff4a18ce0d67556ff1b96a5"
@@ -13,6 +13,11 @@ class PerlAT518 < Formula
 
   uses_from_macos "expat"
   uses_from_macos "libxcrypt"
+
+  # for some unknown reason 5.18.4 fails build on Big Sur without this patch
+  on_big_sur do
+    patch :DATA
+  end
 
   # Prevent site_perl directories from being removed
   skip_clean "lib/perl5/site_perl"
@@ -71,3 +76,14 @@ class PerlAT518 < Formula
     system "#{bin}/perl", "test.pl"
   end
 end
+__END__
+--- a/dist/Module-CoreList/lib/Module/CoreList.pm	2022-10-31 16:28:01.000000000 +1300
++++ b/dist/Module-CoreList/lib/Module/CoreList.pm	2022-11-01 11:02:37.000000000 +1300
+@@ -8092,7 +8092,6 @@
+     5.018004 => {
+         delta_from => 5.018003,
+         changed => {
+-            'Module::CoreList'      => '3.13',
+             'Module::CoreList::TieHashDelta'=> '3.13',
+             'Module::CoreList::Utils'=> '3.13',
+         },
