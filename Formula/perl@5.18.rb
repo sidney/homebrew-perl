@@ -14,13 +14,13 @@ class PerlAT518 < Formula
   uses_from_macos "expat"
   uses_from_macos "libxcrypt"
 
-  # Prevent site_perl directories from being removed
-  skip_clean "lib/perl5/site_perl"
-
   # for some unknown reason 5.18.4 fails build on Big Sur without this patch
   on_big_sur do
     patch :DATA
   end
+
+  # Prevent site_perl directories from being removed
+  skip_clean "lib/perl5/site_perl"
 
   def install
     args = %W[
