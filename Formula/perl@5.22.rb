@@ -5,6 +5,12 @@ class PerlAT522 < Formula
   sha256 "713243dce27d7aa0bdbf52b2070de5ce449f9ffbcc14a93efbc6f2beff0f5ce8"
   license any_of: ["Artistic-1.0-Perl", "GPL-1.0-or-later"]
 
+  bottle do
+    root_url "https://github.com/sidney/homebrew-perl/releases/download/perl@5.22-5.22.4"
+    rebuild 1
+    sha256 monterey: "add9e6ce8bdb66e8dc20957f10b23f17653c564343adbb32449951db4a8d0edc"
+  end
+
   keg_only :versioned_formula
 
   depends_on "berkeley-db"
