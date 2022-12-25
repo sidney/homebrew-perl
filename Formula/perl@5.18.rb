@@ -47,6 +47,8 @@ class PerlAT518 < Formula
       -Dusethreads
     ]
 
+    inreplace "hints/darwin.sh", "env MACOSX_DEPLOYMENT_TARGET=10.3 ", "" if OS.mac? && MacOS.version > :leopard
+
     system "./Configure", *args
     system "make"
     system "make", "install"
