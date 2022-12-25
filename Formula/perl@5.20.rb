@@ -49,7 +49,23 @@ class PerlAT520 < Formula
     system "make", "install"
   end
 
+  resource("cpanm") do
+    url "https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/App-cpanminus-1.7046.tar.gz"
+    sha256 "3e8c9d9b44a7348f9acc917163dbfc15bd5ea72501492cea3a35b346440ff862"
+  end
+
   def post_install
+    resource("cpanm").stage do
+      system "#{bin}/perl", "Makefile.PL", "INSTALL_BASE=#{prefix}",
+                                "INSTALLSITEMAN1DIR=#{man1}",
+                                "INSTALLSITEMAN3DIR=#{man3}"
+      system "make", "install"
+    end
+    ENV["PERL_CPANM_HOME"] = "#{prefix}/.cpanm"
+    system "#{bin}/cpanm", "Pod::Perldoc::ToMan"
+    system "#{bin}/cpanm", "App::cpanoutdated"
+    system "#{bin}/cpan-outdated -p | #{bin}/cpanm"
+
     if OS.linux?
       perl_archlib = Utils.safe_popen_read(bin/"perl", "-MConfig", "-e", "print $Config{archlib}")
       perl_core = Pathname.new(perl_archlib)/"CORE"
