@@ -29,6 +29,11 @@ class PerlAT518 < Formula
   # Prevent site_perl directories from being removed
   skip_clean "lib/perl5/site_perl"
 
+  resource("cpanm") do
+    url "https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/App-cpanminus-1.7046.tar.gz"
+    sha256 "3e8c9d9b44a7348f9acc917163dbfc15bd5ea72501492cea3a35b346440ff862"
+  end
+
   def install
     args = %W[
       -des
@@ -52,11 +57,6 @@ class PerlAT518 < Formula
     system "./Configure", *args
     system "make"
     system "make", "install"
-  end
-
-  resource("cpanm") do
-    url "https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/App-cpanminus-1.7046.tar.gz"
-    sha256 "3e8c9d9b44a7348f9acc917163dbfc15bd5ea72501492cea3a35b346440ff862"
   end
 
   def post_install
