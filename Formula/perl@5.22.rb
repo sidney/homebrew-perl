@@ -9,7 +9,7 @@ class PerlAT522 < Formula
     root_url "https://github.com/sidney/homebrew-perl/releases/download/perl@5.22-5.22.4"
     rebuild 1
     sha256 monterey: "add9e6ce8bdb66e8dc20957f10b23f17653c564343adbb32449951db4a8d0edc"
-    sha256 big_sur: "cd23409a414ed9c0b3f55b310f053b0a57c84aa23a5e38a669363b041d9fca28"
+    sha256 big_sur:  "cd23409a414ed9c0b3f55b310f053b0a57c84aa23a5e38a669363b041d9fca28"
   end
 
   keg_only :versioned_formula

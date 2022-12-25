@@ -9,7 +9,7 @@ class PerlAT518 < Formula
     root_url "https://github.com/sidney/homebrew-perl/releases/download/perl@5.18-5.18.4"
     rebuild 1
     sha256 monterey: "2cf256361827a077c66b5bc80ecab5899b6ce93797eae9c44f2d02e05a369edd"
-    sha256 big_sur: "ca8851a258a88ef41660b091758eb5f5d6ea70d3d787f1b860c9efb208aaab88"
+    sha256 big_sur:  "ca8851a258a88ef41660b091758eb5f5d6ea70d3d787f1b860c9efb208aaab88"
   end
 
   keg_only :versioned_formula

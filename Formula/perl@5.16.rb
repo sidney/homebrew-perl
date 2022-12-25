@@ -9,7 +9,7 @@ class PerlAT516 < Formula
     root_url "https://github.com/sidney/homebrew-perl/releases/download/perl@5.16-5.16.3"
     rebuild 1
     sha256 monterey: "bc47f4732a9f415ba5874d80fb765029b8d900973b131b8157e55066c861eda8"
-    sha256 big_sur: "acd6a1c42849065bb6fe2f4a5108a2845204e5d52cb0f85a12e7e73fec47238b"
+    sha256 big_sur:  "acd6a1c42849065bb6fe2f4a5108a2845204e5d52cb0f85a12e7e73fec47238b"
   end
 
   keg_only :versioned_formula
