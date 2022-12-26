@@ -7,7 +7,7 @@ class PerlAT514 < Formula
 
   bottle do
     root_url "https://github.com/sidney/homebrew-perl/releases/download/perl@5.14-5.14.4"
-    rebuild 1
+    rebuild 2
     sha256 monterey: "47054f1b559a3f7629a206c5906f429905841be5a86b158cdbf82f583c8b24d5"
     sha256 big_sur:  "843cdaf2369bcfa86ddb755216f58920bea8b83fe73e16fdd83aa7737e57debb"
   end
@@ -63,8 +63,8 @@ class PerlAT514 < Formula
     end
     ENV["PERL_CPANM_HOME"] = "#{prefix}/.cpanm"
     system "#{bin}/cpanm", "Pod::Perldoc::ToMan"
-    system "#{bin}/cpanm", "App::cpanoutdated"
-    system "#{bin}/cpan-outdated -p | #{bin}/cpanm"
+    system "#{bin}/cpanm", "ExtUtils::MakeMaker"
+    system "#{bin}/cpanm", "DB_File"
     if OS.linux?
       perl_archlib = Utils.safe_popen_read(bin/"perl", "-MConfig", "-e", "print $Config{archlib}")
       perl_core = Pathname.new(perl_archlib)/"CORE"
