@@ -63,9 +63,8 @@ class PerlAT522 < Formula
     end
     ENV["PERL_CPANM_HOME"] = "#{prefix}/.cpanm"
     system "#{bin}/cpanm", "Pod::Perldoc::ToMan"
+    system "#{bin}/cpanm", "DB_File"
     system "#{bin}/cpanm", "App::cpanoutdated"
-    system "#{bin}/cpan-outdated -p | #{bin}/cpanm"
-
     if OS.linux?
       perl_archlib = Utils.safe_popen_read(bin/"perl", "-MConfig", "-e", "print $Config{archlib}")
       perl_core = Pathname.new(perl_archlib)/"CORE"
