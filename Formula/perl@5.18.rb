@@ -34,43 +34,50 @@ class PerlAT518 < Formula
     sha256 "3e8c9d9b44a7348f9acc917163dbfc15bd5ea72501492cea3a35b346440ff862"
   end
 
+  # all except first use of homebrew paths were changed from #{opt_foo} to {foo} so that perl is
+  # built with paths that can be used in the install block before creating the opt links to Cellar
   def install
     args = %W[
       -des
       -Dinstallstyle=lib/perl5
       -Dinstallprefix=#{prefix}
-      -Dprefix=#{opt_prefix}
-      -Dprivlib=#{opt_lib}/perl5/#{version.major_minor}
-      -Dsitelib=#{opt_lib}/perl5/site_perl/#{version.major_minor}
+      -Dprefix=#{prefix}
+      -Dprivlib=#{lib}/perl5/#{version.major_minor}
+      -Dsitelib=#{lib}/perl5/site_perl/#{version.major_minor}
       -Dotherlibdirs=#{HOMEBREW_PREFIX}/lib/perl5/site_perl/#{version.major_minor}
-      -Dperlpath=#{opt_bin}/perl
-      -Dstartperl=#!#{opt_bin}/perl
-      -Dman1dir=#{opt_share}/man/man1
-      -Dman3dir=#{opt_share}/man/man3
+      -Dperlpath=#{bin}/perl
+      -Dstartperl=#!#{bin}/perl
+      -Dman1dir=#{man}/man1
+      -Dman3dir=#{man}/man3
       -Duseshrplib
       -Duselargefiles
       -Dusethreads
     ]
 
+    # necessary patch for perl versions last released before macOS 10.6 if they are to be built on newer macOS
     inreplace "hints/darwin.sh", "env MACOSX_DEPLOYMENT_TARGET=10.3 ", "" if OS.mac? && MacOS.version > :leopard
 
     system "./Configure", *args
     system "make"
     system "make", "install"
-  end
-
-  def post_install
+    # Some older perl versions have problems with some old version modules on newer macOS
+    # Added install of cpanm and cpan-outdated then update some core cpan modules
+    # This is done in install block so they end up in the bottles
+    ENV["DYLD_LIBRARY_PATH"] = buildpath
     resource("cpanm").stage do
       system "#{bin}/perl", "Makefile.PL", "INSTALL_BASE=#{prefix}",
                                 "INSTALLSITEMAN1DIR=#{man1}",
                                 "INSTALLSITEMAN3DIR=#{man3}"
       system "make", "install"
     end
-    ENV["PERL_CPANM_HOME"] = "#{prefix}/.cpanm"
-    system "#{bin}/cpanm", "Pod::Perldoc::ToMan"
-    system "#{bin}/cpanm", "App::cpanoutdated"
-    system "#{bin}/cpan-outdated -p | #{bin}/cpanm"
+    ENV["PERL_CPANM_HOME"] = "#{buildpath}/.cpanm"
+    system "#{bin}/cpanm", "-n", "ExtUtils::MakeMaker"
+    system "#{bin}/cpanm", "-n", "Pod::Perldoc"
+    system "#{bin}/cpanm", "-n", "DB_File"
+    system "#{bin}/cpanm", "-n", "App::cpanoutdated"
+  end
 
+  def post_install
     if OS.linux?
       perl_archlib = Utils.safe_popen_read(bin/"perl", "-MConfig", "-e", "print $Config{archlib}")
       perl_core = Pathname.new(perl_archlib)/"CORE"
