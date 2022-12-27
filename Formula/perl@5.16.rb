@@ -55,11 +55,9 @@ class PerlAT516 < Formula
     system "./Configure", *args
     system "make"
     system "make", "install"
-    # Older perl versions have problems with some old version modules on newer macOS
-    # added install of cpanm and cpan-outdated then update all core cpan modules
+    # Some older perl versions have problems with some old version modules on newer macOS
+    # Added install of cpanm and cpan-outdated then update some core cpan modules
     # This is done in install block so they end up in the bottles
-    # A few modules that might have to be updated before the others are done separately
-    # cpanm tests are skipped because of time tests take and they are not 100% certain to pass
     ENV["DYLD_LIBRARY_PATH"] = buildpath
     resource("cpanm").stage do
       system "#{bin}/perl", "Makefile.PL", "INSTALL_BASE=#{prefix}",
@@ -72,7 +70,6 @@ class PerlAT516 < Formula
     system "#{bin}/cpanm", "-n", "Pod::Perldoc"
     system "#{bin}/cpanm", "-n", "DB_File"
     system "#{bin}/cpanm", "-n", "App::cpanoutdated"
-    system "#{bin}/cpan-outdated -p | #{bin}/cpanm -n"
   end
 
   def post_install
