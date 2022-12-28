@@ -8,6 +8,7 @@ class PerlAT516 < Formula
   bottle do
     root_url "https://github.com/sidney/homebrew-perl/releases/download/perl@5.16-5.16.3"
     rebuild 3
+    sha256 ventura:  "d02d6dfa438401c3609e5def492d6c764d4c96fa3065ff6bd60cf911ca9a1c74"
     sha256 monterey: "617d4461b0809607a127d9ea05fc070551b62c5ad6f92ea48b1add2430512cc1"
     sha256 big_sur:  "f9f7fcd964af706ac5aa5807fdad87a4224f74de41b10ff84ab32212580cc143"
   end

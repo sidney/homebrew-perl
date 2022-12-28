@@ -8,6 +8,7 @@ class PerlAT520 < Formula
   bottle do
     root_url "https://github.com/sidney/homebrew-perl/releases/download/perl@5.20-5.20.3"
     rebuild 3
+    sha256 ventura:  "b6d52487c569a9572109b42776f89597e7f7ac2e15fe1949309b5e46d320e278"
     sha256 monterey: "760bfca2fa6605ba4ba25f301f8468799a73397e1c9c3212c5e311ed9fbb8240"
     sha256 big_sur:  "e66b9f9a6a342c92c7a71f8e761b4d79b5fee890464443d1e346827273c0a40c"
   end
