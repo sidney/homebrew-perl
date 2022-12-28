@@ -24,20 +24,27 @@ class PerlAT528 < Formula
 
   # Prevent site_perl directories from being removed
   skip_clean "lib/perl5/site_perl"
+  resource("cpanm") do
+    url "https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/App-cpanminus-1.7046.tar.gz"
+    sha256 "3e8c9d9b44a7348f9acc917163dbfc15bd5ea72501492cea3a35b346440ff862"
+  end
   patch :DATA
+
+  # all except first use of homebrew paths were changed from #{opt_foo} to {foo} so that perl is
+  # built with paths that can be used in the install block before creating the opt links to Cellar
   def install
     args = %W[
       -des
       -Dinstallstyle=lib/perl5
       -Dinstallprefix=#{prefix}
-      -Dprefix=#{opt_prefix}
-      -Dprivlib=#{opt_lib}/perl5/#{version.major_minor}
-      -Dsitelib=#{opt_lib}/perl5/site_perl/#{version.major_minor}
+      -Dprefix=#{prefix}
+      -Dprivlib=#{lib}/perl5/#{version.major_minor}
+      -Dsitelib=#{lib}/perl5/site_perl/#{version.major_minor}
       -Dotherlibdirs=#{HOMEBREW_PREFIX}/lib/perl5/site_perl/#{version.major_minor}
-      -Dperlpath=#{opt_bin}/perl
-      -Dstartperl=#!#{opt_bin}/perl
-      -Dman1dir=#{opt_share}/man/man1
-      -Dman3dir=#{opt_share}/man/man3
+      -Dperlpath=#{bin}/perl
+      -Dstartperl=#!#{bin}/perl
+      -Dman1dir=#{man}/man1
+      -Dman3dir=#{man}/man3
       -Duseshrplib
       -Duselargefiles
       -Dusethreads
@@ -46,6 +53,19 @@ class PerlAT528 < Formula
     system "./Configure", *args
     system "make"
     system "make", "install"
+    ENV["DYLD_LIBRARY_PATH"] = buildpath
+    resource("cpanm").stage do
+      system "#{bin}/perl", "Makefile.PL", "INSTALL_BASE=#{prefix}",
+                                "INSTALLSITEMAN1DIR=#{man1}",
+                                "INSTALLSITEMAN3DIR=#{man3}"
+      system "make", "install"
+    end
+    ENV["PERL_CPANM_HOME"] = "#{buildpath}/.cpanm"
+    system "#{bin}/cpanm", "-n", "ExtUtils::MakeMaker"
+    system "#{bin}/cpanm", "-n", "Pod::Perldoc"
+    system "#{bin}/cpanm", "-n", "DB_File"
+    system "#{bin}/cpanm", "-n", "App::cpanoutdated"
+    system "#{bin}/cpan-outdated -p | #{bin}/cpanm -n"
   end
 
   def post_install
