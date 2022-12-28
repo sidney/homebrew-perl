@@ -76,6 +76,7 @@ class PerlAT518 < Formula
     system "#{bin}/cpanm", "-n", "Pod::Perldoc"
     system "#{bin}/cpanm", "-n", "DB_File"
     system "#{bin}/cpanm", "-n", "App::cpanoutdated"
+    system "#{bin}/cpan-outdated -p | #{bin}/cpanm -n"
   end
 
   def post_install
