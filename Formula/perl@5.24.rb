@@ -46,6 +46,19 @@ class PerlAT524 < Formula
     system "./Configure", *args
     system "make"
     system "make", "install"
+    ENV["DYLD_LIBRARY_PATH"] = buildpath
+    resource("cpanm").stage do
+      system "#{bin}/perl", "Makefile.PL", "INSTALL_BASE=#{prefix}",
+                                "INSTALLSITEMAN1DIR=#{man1}",
+                                "INSTALLSITEMAN3DIR=#{man3}"
+      system "make", "install"
+    end
+    ENV["PERL_CPANM_HOME"] = "#{buildpath}/.cpanm"
+    system "#{bin}/cpanm", "-n", "ExtUtils::MakeMaker"
+    system "#{bin}/cpanm", "-n", "Pod::Perldoc"
+    system "#{bin}/cpanm", "-n", "DB_File"
+    system "#{bin}/cpanm", "-n", "App::cpanoutdated"
+    system "#{bin}/cpan-outdated -p | #{bin}/cpanm -n"
   end
 
   def post_install
